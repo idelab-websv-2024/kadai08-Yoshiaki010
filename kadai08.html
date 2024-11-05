@@ -1,47 +1,49 @@
-<!DOCTYPE="utf-8">
+<!DOCTYPE html>
+<html>
   <head>
+    <meta charset="utf-8">
     <title></title>
 
     <script>
-    // https://affiliate.itunes.apple.com/resources/documentation/itunes-store-web-service-search-api/#searchexamples
+      // https://affiliate.itunes.apple.com/resources/documentation/itunes-store-web-service-search-api/#searchexamples
 
-    function searchCallback(result) {
+      function searchCallback(result) 
+      {
         output = document.getElementById('outputArea');
+        output.innerHTML = "";
         results = result.results;
-        for (var r of results) {
-            var oneline = document.createElement('div');
-            oneline.innerHTML = r["collectionName"];
-            oneline.innerHTML += "<br>";
-            oneline.innerHTML += r["artistName"];
-            oneline.innerHTML += "<hr />";
-            output.appendChild(oneline);
+        for (var r of results) 
+        {
+          var oneline = document.createElement('div');
+          var jacket = document.createElement('img');
+          var title = document.createElement('p');
+          jacket.src = r.artworkUrl100;
+          title.innerHTML = r.collectionName;
+          title.innerHTML += "<hr />";
+          output.appendChild(oneline);
+          oneline.appendChild(jacket);  
+          oneline.appendChild(title);
         }
-    }
+      }
 
-    function startRequest() {
-        var statusField = document.getElementById('status');
-        var s = '手嶌';
-        alert(s);
+      function startRequest() 
+      {
+        var s = searchWord.value;
         var searchString = encodeURIComponent(s);
-        alert(searchString);
-
         var iTunesURI = 'https://itunes.apple.com/search?term='+searchString+'&callback=searchCallback';
         document.getElementById('caller').setAttribute('src', iTunesURI);
+      }
 
-        statusField.innerHTML = '';
-    }
     </script>
-
   </head>
   
   <body>
 
-<div id='status'></div>
-<div id='outputArea'></div>
-<input type='button' id='searchWord' value='検索' onclick="startRequest()"/>
+    <input type='text' id="searchWord">
+    <input type='button' value='検索' onclick="startRequest()"/>
 
-
-<script id='caller'></script>
+    <div id='outputArea'></div>
+    <script id='caller'></script>
 
   </body>
 </html>
